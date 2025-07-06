@@ -1,79 +1,170 @@
-# Shadcn Admin Dashboard
+# Stats Log - Admin Dashboard
 
-Admin Dashboard UI crafted with Shadcn and Vite. Built with responsiveness and accessibility in mind.
+A modern admin dashboard with Firebase Authentication integration. Built with React, TypeScript, and Shadcn/ui components for a seamless user experience.
 
-![alt text](public/images/shadcn-admin.png)
+![Stats Log Dashboard](public/images/shadcn-admin.png)
 
-I've been creating dashboard UIs at work and for my personal projects. I always wanted to make a reusable collection of dashboard UI for future projects; and here it is now. While I've created a few custom components, some of the code is directly adapted from ShadcnUI examples.
+## ✨ Features
 
-> This is not a starter project (template) though. I'll probably make one in the future.
+### 🔐 Authentication
+- **Google OAuth** sign-in/sign-out
+- **Real-time user data** display (name, email, avatar)
+- **Protected routes** with authentication guards
+- **Automatic redirects** after authentication
+- **Session management** with Firebase
 
-## Features
+### 🎨 UI/UX
+- **Light/dark mode** toggle
+- **Responsive design** for all devices
+- **Accessible** components with proper ARIA support
+- **Modern sidebar** with collapsible navigation
+- **Global search** command palette
+- **10+ pre-built pages**
 
-- Light/dark mode
-- Responsive
-- Accessible
-- With built-in Sidebar component
-- Global Search Command
-- 10+ pages
-- Extra custom components
+### 🛠️ Technical Features
+- **Type-safe** with TypeScript
+- **Fast development** with Vite hot reload
+- **State management** with Zustand
+- **Modern routing** with TanStack Router
+- **Form handling** with React Hook Form + Zod validation
 
-## Tech Stack
+## 🚀 Tech Stack
 
-**UI:** [ShadcnUI](https://ui.shadcn.com) (TailwindCSS + RadixUI)
+**Frontend:** [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
 
-**Build Tool:** [Vite](https://vitejs.dev/)
+**UI Framework:** [Shadcn/ui](https://ui.shadcn.com) (TailwindCSS + Radix UI)
+
+**Authentication:** [Firebase Authentication](https://firebase.google.com/products/auth)
+
+**State Management:** [Zustand](https://zustand-demo.pmnd.rs/)
 
 **Routing:** [TanStack Router](https://tanstack.com/router/latest)
 
-**Type Checking:** [TypeScript](https://www.typescriptlang.org/)
+**Build Tool:** [Vite](https://vitejs.dev/)
 
-**Linting/Formatting:** [Eslint](https://eslint.org/) & [Prettier](https://prettier.io/)
+**Package Manager:** [pnpm](https://pnpm.io/)
 
-**Icons:** [Tabler Icons](https://tabler.io/icons)
+**Icons:** [Tabler Icons](https://tabler.io/icons) + [Lucide React](https://lucide.dev/)
 
-**Auth (partial):** [Clerk](https://go.clerk.com/GttUAaK)
+## 📋 Prerequisites
 
-## Run Locally
+- Node.js 18+ and pnpm
+- Firebase project with Authentication enabled
+- Google OAuth credentials configured in Firebase Console
 
-Clone the project
+## 🛠️ Installation & Setup
 
-```bash
-  git clone https://github.com/satnaing/shadcn-admin.git
-```
-
-Go to the project directory
+### 1. Clone the repository
 
 ```bash
-  cd shadcn-admin
+git clone https://github.com/akatsuki18/stats-log.git
+cd stats-log
 ```
 
-Install dependencies
+### 2. Install dependencies
 
 ```bash
-  pnpm install
+pnpm install
 ```
 
-Start the server
+### 3. Firebase Configuration
+
+1. Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/)
+2. Enable **Authentication** and add **Google** as a sign-in provider
+3. Get your Firebase configuration from Project Settings
+
+### 4. Environment Setup
+
+Create a `.env` file in the root directory:
 
 ```bash
-  pnpm run dev
+cp .env.example .env
 ```
 
-## Sponsoring this project ❤️
+Add your Firebase configuration:
 
-If you find this project helpful or use this in your own work, consider [sponsoring me](https://github.com/sponsors/satnaing) to support development and maintenance. You can [buy me a coffee](https://buymeacoffee.com/satnaing) as well. Don’t worry, every penny helps. Thank you! 🙏
+```env
+VITE_FIREBASE_API_KEY=your_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
 
-For questions or sponsorship inquiries, feel free to reach out at [contact@satnaing.dev](mailto:contact@satnaing.dev).
+### 5. Start Development Server
 
-### Current Sponsor
+```bash
+pnpm run dev
+```
 
-- [Clerk](https://go.clerk.com/GttUAaK) - for backing the implementation of Clerk in this project
+Visit `http://localhost:5174` to see your application running!
 
-## Author
+## 🔥 Usage
 
-Crafted with 🤍 by [@satnaing](https://github.com/satnaing)
+### Authentication Flow
 
-## License
+1. Navigate to `/sign-in`
+2. Click the **Google** button
+3. Complete Google OAuth authentication
+4. Automatically redirected to dashboard
+5. Your profile information (name, email, avatar) will be displayed
+6. Use the **Log out** option in the profile dropdown to sign out
 
-Licensed under the [MIT License](https://choosealicense.com/licenses/mit/)
+### Available Routes
+
+- `/` - Dashboard (protected)
+- `/sign-in` - Sign in page
+- `/users` - User management (protected)
+- `/tasks` - Task management (protected)
+- `/settings` - User settings (protected)
+- And more...
+
+## 🏗️ Build for Production
+
+```bash
+pnpm run build
+```
+
+The built files will be in the `dist` directory.
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+├── features/           # Feature-based modules
+├── hooks/              # Custom React hooks
+├── lib/                # Utilities and configurations
+│   ├── firebase.ts     # Firebase configuration
+│   └── auth.ts         # Authentication utilities
+├── stores/             # Zustand state stores
+├── routes/             # Application routes
+└── main.tsx           # Application entry point
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built on top of the excellent [Shadcn Admin Dashboard](https://github.com/satnaing/shadcn-admin) template by [@satnaing](https://github.com/satnaing)
+- UI components from [Shadcn/ui](https://ui.shadcn.com)
+- Icons from [Tabler Icons](https://tabler.io/icons) and [Lucide](https://lucide.dev)
+
+## 📧 Contact
+
+For questions or suggestions, feel free to open an issue or reach out!
+
+---
+
+**Stats Log** - Crafted with ❤️ for modern web development
