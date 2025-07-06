@@ -1,5 +1,5 @@
 import { HTMLAttributes, useState } from 'react'
-import { useRouter } from '@tanstack/react-router'
+import { useRouter, useSearch } from '@tanstack/react-router'
 import { IconBrandGoogle } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -13,6 +13,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
   const setFirebaseUser = useAuthStore((state) => state.auth.setFirebaseUser)
   const router = useRouter()
+  const search = useSearch({ from: '/(auth)/sign-in' })
 
   async function handleGoogleSignIn() {
     setIsGoogleLoading(true)
@@ -21,8 +22,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       if (user) {
         setFirebaseUser(user)
         toast.success('Successfully signed in with Google!')
-        // Redirect to dashboard/home page
-        router.navigate({ to: '/' })
+        
+        // Redirect to original page or dashboard
+        const redirectTo = search.redirect || '/'
+        router.navigate({ to: redirectTo })
       }
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
