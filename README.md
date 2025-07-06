@@ -2,11 +2,10 @@
 
 A modern admin dashboard with Firebase Authentication integration. Built with React, TypeScript, and Shadcn/ui components for a seamless user experience.
 
-![Stats Log Dashboard](public/images/shadcn-admin.png)
-
 ## ✨ Features
 
 ### 🔐 Authentication
+
 - **Google OAuth** sign-in/sign-out
 - **Real-time user data** display (name, email, avatar)
 - **Protected routes** with authentication guards
@@ -14,6 +13,7 @@ A modern admin dashboard with Firebase Authentication integration. Built with Re
 - **Session management** with Firebase
 
 ### 🎨 UI/UX
+
 - **Light/dark mode** toggle
 - **Responsive design** for all devices
 - **Accessible** components with proper ARIA support
@@ -22,6 +22,7 @@ A modern admin dashboard with Firebase Authentication integration. Built with Re
 - **10+ pre-built pages**
 
 ### 🛠️ Technical Features
+
 - **Type-safe** with TypeScript
 - **Fast development** with Vite hot reload
 - **State management** with Zustand
