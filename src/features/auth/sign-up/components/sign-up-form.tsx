@@ -5,6 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { IconBrandFacebook, IconBrandGithub } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { useAuthStore } from '@/stores/authStore'
+import { supabase } from '@/lib/supabase'
 import {
   Form,
   FormControl,
@@ -41,6 +43,7 @@ const formSchema = z
 
 export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const setUserHasTeam = useAuthStore((state) => state.auth.setUserHasTeam)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,14 +54,31 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
-    // eslint-disable-next-line no-console
-    console.log(data)
+    
+    try {
+      const { data: authData, error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+      })
 
-    setTimeout(() => {
+      if (error) {
+        console.error('Sign up error:', error)
+        // Handle error (show toast, etc.)
+        return
+      }
+
+      if (authData.user) {
+        // Set user as not having a team (they'll be redirected to team setup)
+        setUserHasTeam(false)
+        // User will be automatically signed in and redirected by the auth state change
+      }
+    } catch (error) {
+      console.error('Sign up error:', error)
+    } finally {
       setIsLoading(false)
-    }, 3000)
+    }
   }
 
   return (

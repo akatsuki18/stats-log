@@ -3,7 +3,7 @@ import { useRouter, useSearch } from '@tanstack/react-router'
 import { IconBrandGoogle } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { signInWithGoogle } from '@/lib/auth'
+import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/authStore'
 import { toast } from 'sonner'
 
@@ -11,22 +11,26 @@ type UserAuthFormProps = HTMLAttributes<HTMLDivElement>
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false)
-  const setFirebaseUser = useAuthStore((state) => state.auth.setFirebaseUser)
+  const setSupabaseUser = useAuthStore((state) => state.auth.setSupabaseUser)
   const router = useRouter()
   const search = useSearch({ from: '/(auth)/sign-in' })
 
   async function handleGoogleSignIn() {
     setIsGoogleLoading(true)
     try {
-      const user = await signInWithGoogle()
-      if (user) {
-        setFirebaseUser(user)
-        toast.success('Successfully signed in with Google!')
-        
-        // Redirect to original page or dashboard
-        const redirectTo = search.redirect || '/'
-        router.navigate({ to: redirectTo })
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth-callback`,
+        },
+      })
+      
+      if (error) {
+        throw error
       }
+      
+      // OAuth redirect will handle the actual sign-in
+      // The auth state change will be handled by useSupabaseAuth
     } catch (error: unknown) {
       // eslint-disable-next-line no-console
       console.error('Google sign in failed:', error)

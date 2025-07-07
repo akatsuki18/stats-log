@@ -23,7 +23,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import { signOutUser } from '@/lib/auth'
+import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/authStore'
 import { toast } from 'sonner'
 
@@ -42,7 +42,7 @@ export function NavUser({
 
   const handleLogout = async () => {
     try {
-      await signOutUser()
+      await supabase.auth.signOut()
       reset()
       toast.success('Successfully logged out!')
       router.navigate({ to: '/sign-in' })

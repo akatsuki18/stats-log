@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import { create } from 'zustand'
-import { User } from 'firebase/auth'
+import { User } from '@supabase/supabase-js'
 
 const ACCESS_TOKEN = 'thisisjustarandomstring'
 
@@ -9,14 +9,16 @@ interface AuthUser {
   email: string
   role: string[]
   exp: number
-  firebaseUser?: User | null
+  hasTeam: boolean
+  supabaseUser?: User | null
 }
 
 interface AuthState {
   auth: {
     user: AuthUser | null
     setUser: (user: AuthUser | null) => void
-    setFirebaseUser: (firebaseUser: User | null) => void
+    setSupabaseUser: (supabaseUser: User | null) => void
+    setUserHasTeam: (hasTeam: boolean) => void
     accessToken: string
     setAccessToken: (accessToken: string) => void
     resetAccessToken: () => void
@@ -32,22 +34,31 @@ export const useAuthStore = create<AuthState>()((set) => {
       user: null,
       setUser: (user) =>
         set((state) => ({ ...state, auth: { ...state.auth, user } })),
-      setFirebaseUser: (firebaseUser) =>
+      setSupabaseUser: (supabaseUser) =>
         set((state) => ({
           ...state,
           auth: {
             ...state.auth,
             user: state.auth.user
-              ? { ...state.auth.user, firebaseUser }
-              : firebaseUser
+              ? { ...state.auth.user, supabaseUser }
+              : supabaseUser
               ? {
-                  accountNo: firebaseUser.uid,
-                  email: firebaseUser.email || '',
+                  accountNo: supabaseUser.id,
+                  email: supabaseUser.email || '',
                   role: ['user'],
                   exp: 0,
-                  firebaseUser,
+                  hasTeam: false,
+                  supabaseUser,
                 }
               : null,
+          },
+        })),
+      setUserHasTeam: (hasTeam) =>
+        set((state) => ({
+          ...state,
+          auth: {
+            ...state.auth,
+            user: state.auth.user ? { ...state.auth.user, hasTeam } : null,
           },
         })),
       accessToken: initToken,

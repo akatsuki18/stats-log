@@ -11,7 +11,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { signOutUser } from '@/lib/auth'
+import { supabase } from '@/lib/supabase'
 import { useAuthStore } from '@/stores/authStore'
 import { toast } from 'sonner'
 
@@ -19,16 +19,21 @@ export function ProfileDropdown() {
   const router = useRouter()
   const reset = useAuthStore((state) => state.auth.reset)
   const authUser = useAuthStore((state) => state.auth.user)
-  const firebaseUser = authUser?.firebaseUser
+  const supabaseUser = authUser?.supabaseUser
 
-  // Create user data from Firebase with fallbacks
+  // Create user data from Supabase with fallbacks
   const userData = {
-    name: firebaseUser?.displayName || 
-          firebaseUser?.email?.split('@')[0] || 
+    name: supabaseUser?.user_metadata?.full_name || 
+          supabaseUser?.user_metadata?.name ||
+          supabaseUser?.email?.split('@')[0] || 
           'User',
-    email: firebaseUser?.email || '',
-    avatar: firebaseUser?.photoURL || '/avatars/01.png',
-    initials: (firebaseUser?.displayName || firebaseUser?.email || 'U')
+    email: supabaseUser?.email || '',
+    avatar: supabaseUser?.user_metadata?.avatar_url || 
+            supabaseUser?.user_metadata?.picture || 
+            '/avatars/01.png',
+    initials: (supabaseUser?.user_metadata?.full_name || 
+              supabaseUser?.user_metadata?.name || 
+              supabaseUser?.email || 'U')
       .split(' ')
       .map(n => n[0])
       .join('')
@@ -38,7 +43,7 @@ export function ProfileDropdown() {
 
   const handleLogout = async () => {
     try {
-      await signOutUser()
+      await supabase.auth.signOut()
       reset()
       toast.success('Successfully logged out!')
       router.navigate({ to: '/sign-in' })
