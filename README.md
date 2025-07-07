@@ -1,6 +1,6 @@
 # Stats Log - Admin Dashboard
 
-A modern admin dashboard with Firebase Authentication integration. Built with React, TypeScript, and Shadcn/ui components for a seamless user experience.
+A modern admin dashboard with Supabase authentication integration. Built with React, TypeScript, and Shadcn/ui components for a seamless user experience.
 
 ## ✨ Features
 
@@ -10,7 +10,7 @@ A modern admin dashboard with Firebase Authentication integration. Built with Re
 - **Real-time user data** display (name, email, avatar)
 - **Protected routes** with authentication guards
 - **Automatic redirects** after authentication
-- **Session management** with Firebase
+- **Session management** with Supabase
 
 ### 🎨 UI/UX
 
@@ -35,7 +35,7 @@ A modern admin dashboard with Firebase Authentication integration. Built with Re
 
 **UI Framework:** [Shadcn/ui](https://ui.shadcn.com) (TailwindCSS + Radix UI)
 
-**Authentication:** [Firebase Authentication](https://firebase.google.com/products/auth)
+**Authentication:** [Supabase Authentication](https://supabase.com/docs/guides/auth)
 
 **State Management:** [Zustand](https://zustand-demo.pmnd.rs/)
 
@@ -50,8 +50,8 @@ A modern admin dashboard with Firebase Authentication integration. Built with Re
 ## 📋 Prerequisites
 
 - Node.js 18+ and pnpm
-- Firebase project with Authentication enabled
-- Google OAuth credentials configured in Firebase Console
+- Supabase project with Authentication enabled
+- Google OAuth credentials configured in Supabase Dashboard
 
 ## 🛠️ Installation & Setup
 
@@ -68,11 +68,11 @@ cd stats-log
 pnpm install
 ```
 
-### 3. Firebase Configuration
+### 3. Supabase Configuration
 
-1. Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/)
+1. Create a new Supabase project at [Supabase Dashboard](https://app.supabase.com/)
 2. Enable **Authentication** and add **Google** as a sign-in provider
-3. Get your Firebase configuration from Project Settings
+3. Get your Supabase configuration from Project Settings
 
 ### 4. Environment Setup
 
@@ -82,15 +82,11 @@ Create a `.env` file in the root directory:
 cp .env.example .env
 ```
 
-Add your Firebase configuration:
+Add your Supabase configuration:
 
 ```env
-VITE_FIREBASE_API_KEY=your_api_key_here
-VITE_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project_id.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
+VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 ### 5. Start Development Server
@@ -137,7 +133,7 @@ src/
 ├── features/           # Feature-based modules
 ├── hooks/              # Custom React hooks
 ├── lib/                # Utilities and configurations
-│   ├── firebase.ts     # Firebase configuration
+│   ├── supabase.ts     # Supabase configuration
 │   └── auth.ts         # Authentication utilities
 ├── stores/             # Zustand state stores
 ├── routes/             # Application routes

@@ -13,15 +13,18 @@ import { useAuthStore } from '@/stores/authStore'
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const authUser = useAuthStore((state) => state.auth.user)
-  const firebaseUser = authUser?.firebaseUser
+  const supabaseUser = authUser?.supabaseUser
 
-  // Create user object from Firebase data with fallbacks
+  // Create user object from Supabase data with fallbacks
   const user = {
-    name: firebaseUser?.displayName || 
-          firebaseUser?.email?.split('@')[0] || 
+    name: supabaseUser?.user_metadata?.full_name || 
+          supabaseUser?.user_metadata?.name ||
+          supabaseUser?.email?.split('@')[0] || 
           'User',
-    email: firebaseUser?.email || '',
-    avatar: firebaseUser?.photoURL || '/avatars/shadcn.jpg',
+    email: supabaseUser?.email || '',
+    avatar: supabaseUser?.user_metadata?.avatar_url || 
+            supabaseUser?.user_metadata?.picture || 
+            '/avatars/shadcn.jpg',
   }
 
   return (

@@ -16,7 +16,7 @@ export const Route = createFileRoute('/(auth)/sign-in')({
     const authUser = useAuthStore.getState().auth.user
     
     // If user is already authenticated, redirect to intended page or dashboard
-    if (authUser && authUser.firebaseUser) {
+    if (authUser && authUser.supabaseUser) {
       throw redirect({
         to: search.redirect || '/',
       })
